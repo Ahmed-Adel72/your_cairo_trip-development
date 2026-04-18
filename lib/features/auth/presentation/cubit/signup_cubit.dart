@@ -1,5 +1,3 @@
-// lib/features/auth/presentation/cubit/signup_cubit.dart
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_cairo_trip/core/error/failures.dart';
@@ -20,6 +18,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     required String phone,
     required String password,
     required String passwordConfirmation,
+    String langCode = 'ar',
   }) async {
     if (name.isEmpty) {
       emit(SignUpFailure(AppTranslationKeys.signUpNameRequired.tr()));
@@ -61,10 +60,27 @@ class SignUpCubit extends Cubit<SignUpState> {
 
       final response = await _authRepository.signUp(request: request);
 
-      // ── حفظ التوكن ──
+      // ── save token ──
       await TokenManager.saveToken(response.token);
 
       emit(SignUpSuccess(response));
+    } on ValidationFailure catch (e) {
+      // Resolve each field error to the current locale
+      final Map<String, String> resolvedErrors = {};
+      e.rawErrors.forEach((field, langMap) {
+        final msgs = langMap[langCode] ?? langMap['ar'] ?? [];
+        if (msgs.isNotEmpty) {
+          resolvedErrors[field] = msgs.first;
+        }
+      });
+
+      // Top-level message is stored as 'ar|en'
+      final parts = e.message.split('|');
+      final topMessage = langCode == 'en' && parts.length > 1
+          ? parts[1]
+          : parts[0];
+
+      emit(SignUpFailure(topMessage, fieldErrors: resolvedErrors));
     } on ServerFailure catch (e) {
       emit(SignUpFailure(e.message));
     } on NetworkFailure catch (_) {

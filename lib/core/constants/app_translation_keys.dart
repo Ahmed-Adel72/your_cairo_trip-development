@@ -1,5 +1,3 @@
-// lib/core/constants/app_translation_keys.dart
-
 class AppTranslationKeys {
   AppTranslationKeys._();
 
@@ -205,4 +203,7 @@ class AppTranslationKeys {
 
   static const String bookingBudgetExceeded = 'booking.budget_exceeded';
   static const String bookingLoginRequired = 'booking.login_required';
+  static const String bookingBudgetTripExceeded =
+      'booking.budget_trip_exceeded';
+  static const String bookingContinueBooking = 'booking.continue_booking';
 }

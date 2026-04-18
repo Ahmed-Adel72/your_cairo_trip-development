@@ -1,5 +1,3 @@
-// lib/features/auth/presentation/cubit/login_cubit.dart
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:your_cairo_trip/core/error/failures.dart';
@@ -31,7 +29,7 @@ class LoginCubit extends Cubit<LoginState> {
         password: password,
       );
 
-      // ── حفظ التوكن ──
+      // ── save token ──
       await TokenManager.saveToken(response.token);
 
       emit(LoginSuccess(response));

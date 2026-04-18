@@ -70,7 +70,7 @@ class _MyTripsViewState extends State<_MyTripsView>
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12.r),
                     child: Image.network(
-                      trip.place.imageUrl,
+                      _fixImageUrl(trip.place.imageUrl),
                       height: 120.h,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -397,4 +397,8 @@ class _MyTripsViewState extends State<_MyTripsView>
       ),
     );
   }
+}
+
+String _fixImageUrl(String url) {
+  return url.replaceFirst('http://', 'https://');
 }

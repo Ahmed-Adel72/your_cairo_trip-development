@@ -1,7 +1,4 @@
-// lib/features/booking/presentation/widgets/booking_success_sheet.dart
-
 import 'dart:ui' as ui;
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +11,6 @@ class BookingSuccessSheet extends StatelessWidget {
 
   const BookingSuccessSheet({super.key, required this.bookingResponse});
 
-  // ── بقت ترجع Future عشان نعرف لما اليوزر يقفلها ──
   static Future<void> show(
     BuildContext context, {
     required BookingResponseModel bookingResponse,
@@ -169,7 +165,7 @@ class BookingSuccessSheet extends StatelessWidget {
                 icon: Icon(Icons.explore_rounded, size: 20.sp),
                 // ── label بدل child ──
                 label: Text(
-                  langCode == 'ar' ? 'متابعة الحجوزات' : 'Continue Booking',
+                  AppTranslationKeys.bookingContinueBooking.tr(),
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,

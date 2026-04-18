@@ -1,5 +1,3 @@
-// lib/features/auth/presentation/widgets/sign_up_form_widget.dart
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +27,28 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
+  // Field-level errors from the API
+  Map<String, String> _fieldErrors = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // Clear field errors when the user starts editing any field
+    _nameController.addListener(() => _clearFieldError('name'));
+    _emailController.addListener(() => _clearFieldError('email'));
+    _phoneController.addListener(() => _clearFieldError('phone'));
+    _passwordController.addListener(() => _clearFieldError('password'));
+    _confirmPasswordController.addListener(
+      () => _clearFieldError('password_confirmation'),
+    );
+  }
+
+  void _clearFieldError(String field) {
+    if (_fieldErrors.containsKey(field)) {
+      setState(() => _fieldErrors = Map.from(_fieldErrors)..remove(field));
+    }
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -43,18 +63,30 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpCubit, SignUpState>(
       listener: (context, state) {
-        // ── نجح ──
         if (state is SignUpSuccess) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
           );
         }
-        // ── فشل ──
         if (state is SignUpFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
+          // Update inline field errors
+          setState(() => _fieldErrors = state.fieldErrors);
+
+          // Show a snackbar only for the top-level message
+          // (when there are no field errors, or as a summary)
+          if (state.fieldErrors.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        }
+        // Clear field errors on new loading attempt
+        if (state is SignUpLoading) {
+          setState(() => _fieldErrors = {});
         }
       },
       builder: (context, state) {
@@ -90,6 +122,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 hintKey: AppTranslationKeys.signUpName,
                 icon: Icons.person_outline_rounded,
                 enabled: !isLoading,
+                errorText: _fieldErrors['name'],
               ),
 
               SizedBox(height: 12.h),
@@ -101,6 +134,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 icon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
                 enabled: !isLoading,
+                errorText: _fieldErrors['email'],
               ),
 
               SizedBox(height: 12.h),
@@ -112,6 +146,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 icon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
                 enabled: !isLoading,
+                errorText: _fieldErrors['phone'],
               ),
 
               SizedBox(height: 12.h),
@@ -123,6 +158,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 icon: Icons.lock_outline_rounded,
                 obscureText: _obscurePassword,
                 enabled: !isLoading,
+                errorText: _fieldErrors['password'],
                 suffixIcon: GestureDetector(
                   onTap: () =>
                       setState(() => _obscurePassword = !_obscurePassword),
@@ -145,6 +181,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                 icon: Icons.lock_outline_rounded,
                 obscureText: _obscureConfirmPassword,
                 enabled: !isLoading,
+                errorText: _fieldErrors['password_confirmation'],
                 suffixIcon: GestureDetector(
                   onTap: () => setState(
                     () => _obscureConfirmPassword = !_obscureConfirmPassword,
@@ -215,33 +252,59 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
     bool obscureText = false,
     bool enabled = true,
     Widget? suffixIcon,
+    String? errorText,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        enabled: enabled,
-        textAlign: context.locale.languageCode == 'ar'
-            ? TextAlign.right
-            : TextAlign.left,
-        style: TextStyle(fontSize: 14.sp, color: AppColors.textDark),
-        decoration: InputDecoration(
-          hintText: hintKey.tr(),
-          hintStyle: TextStyle(color: AppColors.textLight, fontSize: 14.sp),
-          suffixIcon:
-              suffixIcon ?? Icon(icon, color: AppColors.textLight, size: 20.sp),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 14.h,
+    final hasError = errorText != null && errorText.isNotEmpty;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(12.r),
+            border: hasError
+                ? Border.all(color: Colors.red.shade400, width: 1.2)
+                : null,
+          ),
+          child: TextField(
+            controller: controller,
+            keyboardType: keyboardType,
+            obscureText: obscureText,
+            enabled: enabled,
+            textAlign: context.locale.languageCode == 'ar'
+                ? TextAlign.right
+                : TextAlign.left,
+            style: TextStyle(fontSize: 14.sp, color: AppColors.textDark),
+            decoration: InputDecoration(
+              hintText: hintKey.tr(),
+              hintStyle: TextStyle(color: AppColors.textLight, fontSize: 14.sp),
+              suffixIcon:
+                  suffixIcon ??
+                  Icon(icon, color: AppColors.textLight, size: 20.sp),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 14.h,
+              ),
+            ),
           ),
         ),
-      ),
+        if (hasError) ...[
+          SizedBox(height: 4.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            child: Text(
+              errorText,
+              style: TextStyle(color: Colors.red.shade600, fontSize: 12.sp),
+              textAlign: context.locale.languageCode == 'ar'
+                  ? TextAlign.right
+                  : TextAlign.left,
+            ),
+          ),
+        ],
+      ],
     );
   }
 
@@ -252,6 +315,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
       phone: _phoneController.text.trim(),
       password: _passwordController.text.trim(),
       passwordConfirmation: _confirmPasswordController.text.trim(),
+      langCode: context.locale.languageCode,
     );
   }
 }

@@ -1,5 +1,3 @@
-// lib/features/booking/data/models/booking_request_model.dart
-
 class BookingRequestModel {
   final int placeId;
   final String bookingDate;

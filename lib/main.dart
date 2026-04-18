@@ -1,5 +1,3 @@
-// lib/main.dart
-
 import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -48,13 +46,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Cairo Trip',
-
-          // ── easy_localization ──
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-
-          // ── الاتجاه بيتغير تلقائي حسب اللغة ──
           builder: (context, child) {
             return Directionality(
               textDirection: context.locale.languageCode == 'ar'
@@ -64,8 +58,12 @@ class MyApp extends StatelessWidget {
             );
           },
 
-          // ── Home: حسب حالة اللوجين ──
           home: isLoggedIn ? const MainNavigationScreen() : const LoginScreen(),
+
+          routes: {
+            '/home': (context) => const MainNavigationScreen(),
+            '/login': (context) => const LoginScreen(),
+          },
         );
       },
     );

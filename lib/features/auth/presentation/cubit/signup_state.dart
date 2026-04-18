@@ -1,5 +1,3 @@
-// lib/features/auth/presentation/cubit/signup_state.dart
-
 import 'package:equatable/equatable.dart';
 import '../../data/models/signup_response_model.dart';
 
@@ -24,8 +22,11 @@ class SignUpSuccess extends SignUpState {
 class SignUpFailure extends SignUpState {
   final String message;
 
-  SignUpFailure(this.message);
+  /// Field-level errors from the API, e.g. {'email': 'يجب أن يكون...', 'password': '...'}
+  final Map<String, String> fieldErrors;
+
+  SignUpFailure(this.message, {this.fieldErrors = const {}});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, fieldErrors];
 }

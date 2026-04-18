@@ -1,7 +1,4 @@
-// lib/features/booking/presentation/screens/booking_screen.dart
-
 import 'dart:ui' as ui;
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,21 +77,17 @@ class _BookingScreenState extends State<BookingScreen> {
               bookingResponse: state.bookingResponse,
             ).then((_) {
               if (context.mounted) {
-                // ── لو جاي من places ──
                 if (widget.placesCubit != null) {
-                  // ── نعمل markAsBooked بالتكلفة الفعلية من الـ response ──
                   widget.placesCubit!.markAsBooked(
                     placeId: widget.placeId,
                     bookedCost: state.bookingResponse.data.totalPriceNumber,
                   );
 
-                  // ── نرجع لـ PlacesListScreen مباشرة ──
                   Navigator.popUntil(
                     context,
                     (route) => route.settings.name == '/places',
                   );
                 } else {
-                  // ── لو جاي من explore أو favourites نرجع للخلف عادي ──
                   Navigator.pop(context);
                 }
               }

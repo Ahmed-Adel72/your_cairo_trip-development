@@ -232,7 +232,7 @@ class _FavouriteCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
                 child: Image.network(
-                  place.imageUrl,
+                  _fixImageUrl(place.imageUrl),
                   height: 160.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -440,4 +440,8 @@ class _FavouriteCard extends StatelessWidget {
       ),
     );
   }
+}
+
+String _fixImageUrl(String url) {
+  return url.replaceFirst('http://', 'https://');
 }

@@ -91,7 +91,10 @@
     "unexpected_error": "An unexpected error occurred",
     "status": "Status",
     "budget_exceeded": "Total cost {total} EGP exceeds your budget {budget} EGP",
-    "login_required": "You must login first"
+    "login_required": "You must login first",
+    "budget_trip_exceeded": "Cost exceeds the estimated cost of the trip",
+    "continue_booking": "Continue Booking"
+
   },
   "explore": {
     "title": "Explore",

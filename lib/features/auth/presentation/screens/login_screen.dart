@@ -1,5 +1,3 @@
-// lib/features/auth/presentation/screens/login_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/service_locator.dart';
@@ -12,7 +10,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // ── get_it بيجيب الـ LoginCubit ──
       create: (_) => sl<LoginCubit>(),
       child: Scaffold(
         resizeToAvoidBottomInset: true,

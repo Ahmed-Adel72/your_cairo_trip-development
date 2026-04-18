@@ -91,7 +91,9 @@
     "unexpected_error": "حدث خطأ غير متوقع",
     "status": "الحالة",
     "budget_exceeded": "التكلفة الإجمالية {total} ج تتجاوز ميزانيتك {budget} ج",
-    "login_required": "يجب تسجيل الدخول أولاً"
+    "login_required": "يجب تسجيل الدخول أولاً",
+    "budget_trip_exceeded": "التكلفة تتجاوز التكلفة التقريبية للرحلة",
+    "continue_booking": "متابعة الحجوزات"
   },
   "explore": {
     "title": "استكشاف",
