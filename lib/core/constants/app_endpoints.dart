@@ -1,5 +1,3 @@
-// lib/core/constants/app_endpoints.dart
-
 class AppEndpoints {
   AppEndpoints._();
 

@@ -1,5 +1,3 @@
-// lib/features/booking/presentation/cubit/booking_state.dart
-
 import 'package:equatable/equatable.dart';
 import '../../data/models/booking_response_model.dart';
 

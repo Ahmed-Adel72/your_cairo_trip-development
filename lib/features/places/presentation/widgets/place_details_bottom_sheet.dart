@@ -196,7 +196,7 @@ class _ImageSection extends StatelessWidget {
           borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
           child: place.imageUrl != null && place.imageUrl!.isNotEmpty
               ? Image.network(
-                  place.imageUrl!,
+                  _fixImageUrl(place.imageUrl!),
                   height: 220.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -435,4 +435,8 @@ class _ImagePlaceholder extends StatelessWidget {
       ),
     );
   }
+}
+
+String _fixImageUrl(String url) {
+  return url.replaceFirst('http://', 'https://');
 }

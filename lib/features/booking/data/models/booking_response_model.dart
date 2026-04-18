@@ -1,5 +1,3 @@
-// lib/features/booking/data/models/booking_response_model.dart
-
 class BookingResponseModel {
   final bool success;
   final BookingMessageModel message;

@@ -17,7 +17,6 @@ class DioClient {
       ),
     );
 
-    // ── Interceptor للـ Logging ──
     dio.interceptors.add(LogInterceptor(request: true, responseBody: true));
 
     return dio;

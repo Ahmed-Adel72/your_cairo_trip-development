@@ -1,5 +1,3 @@
-// lib/features/auth/presentation/cubit/login_state.dart
-
 import 'package:equatable/equatable.dart';
 import '../../data/models/login_response_model.dart';
 

@@ -1,7 +1,4 @@
-// lib/core/navigation/main_navigation_screen.dart
-
 import 'dart:ui' as ui;
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,7 +33,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Directionality(
       textDirection: isAr ? ui.TextDirection.rtl : ui.TextDirection.ltr,
       child: Scaffold(
-        // ── Key هيخلي الـ IndexedStack يتبني من جديد لما اللغة تتغير ──
         body: IndexedStack(
           key: ValueKey(langCode),
           index: _currentIndex,

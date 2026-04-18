@@ -1,5 +1,3 @@
-// lib/features/auth/data/models/signup_request_model.dart
-
 class SignUpRequestModel {
   final String name;
   final String email;

@@ -1,5 +1,3 @@
-// lib/core/di/service_locator.dart
-
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:your_cairo_trip/features/profile/data/data_source/profile_remote_data_source.dart';

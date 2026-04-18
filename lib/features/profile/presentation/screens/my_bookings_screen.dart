@@ -299,7 +299,7 @@ class _BookingCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
                 child: Image.network(
-                  booking.place.imageUrl,
+                  _fixImageUrl(booking.place.imageUrl),
                   height: 150.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -495,4 +495,8 @@ class _InfoChip extends StatelessWidget {
       ),
     );
   }
+}
+
+String _fixImageUrl(String url) {
+  return url.replaceFirst('http://', 'https://');
 }

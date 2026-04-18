@@ -1,5 +1,3 @@
-// lib/features/booking/presentation/widgets/booking_header_widget.dart
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +6,6 @@ import '../../../../core/constants/app_translation_keys.dart';
 
 class BookingHeaderWidget extends StatelessWidget {
   final String placeName;
-  // ── بقى nullable عشان الـ API ممكن ميرجعش image ──
   final String? placeImage;
 
   const BookingHeaderWidget({
@@ -28,7 +25,6 @@ class BookingHeaderWidget extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(16.r),
           child: placeImage != null && placeImage!.isNotEmpty
-              // ── Image.network بدل Image.asset ──
               ? Image.network(
                   _fixImageUrl(placeImage!),
                   height: 180.h,
@@ -91,7 +87,7 @@ class _LoadingWidget extends StatelessWidget {
     return Container(
       height: 200.h,
       width: double.infinity,
-      color: const Color(0xFFF5F5F5), // لون هادي للتحميل
+      color: const Color(0xFFF5F5F5),
       child: const Center(
         child: CircularProgressIndicator(
           strokeWidth: 2,
@@ -148,6 +144,7 @@ class _PlaceholderWidget extends StatelessWidget {
   }
 }
 
+// fix image URL
 String _fixImageUrl(String url) {
   return url.replaceFirst('http://', 'https://');
 }

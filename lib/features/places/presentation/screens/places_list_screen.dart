@@ -39,7 +39,7 @@ class PlacesListScreen extends StatelessWidget {
           onPopInvokedWithResult: (didPop, result) {
             if (!didPop) {
               // ── زرار الباك بتاع الموبايل → نرجع للصفحة الرئيسية مباشرة ──
-              Navigator.popUntil(context, (route) => route.isFirst);
+              Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
             }
           },
           child: Scaffold(
@@ -59,7 +59,7 @@ class PlacesListScreen extends StatelessWidget {
               // ── زرار الباك بتاع الـ AppBar → نرجع للصفحة الرئيسية مباشرة ──
               leading: IconButton(
                 onPressed: () =>
-                    Navigator.popUntil(context, (route) => route.isFirst),
+                    Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false),
                 icon: Icon(
                   Icons.arrow_back_ios_rounded,
                   color: AppColors.white,
